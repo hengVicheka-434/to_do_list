@@ -1,24 +1,21 @@
-import React from 'react'
-import './Header.css'
+import React from 'react';
+import acheivifyLogo from '../assets/acheivify.jpg';
 
-export default function Header() {
-  return (
-    <header className="site-header">
-      <div className="container">
-        <h1 className="brand">To Do List</h1>
-      </div>
+// Header Component
+const Header = ({ setPage }) => (
+    <header>
+        {/* Logo click also navigates to home page */}
+        <img src={acheivifyLogo} alt="Logo" className="logo-img" onClick={() => setPage('home')} style={{ cursor: 'pointer' }} />
+        <p>
+            <a 
+                href="#" 
+                className="logo-text" 
+                onClick={(e) => { e.preventDefault(); setPage('home'); }}
+            >
+                ACHEIVIFY
+            </a>
+        </p>
     </header>
-  )
-}
-import React from 'react'
-import './Header.css'
+);
 
-export default function Header() {
-  return (
-    <header className="site-header">
-      <div className="container">
-        <h1 className="brand">To Do List</h1>
-      </div>
-    </header>
-  )
-}
+export default Header;
