@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PageContent from "../components/PageContent";
-import "../styles/App.css";
 
 const ToDo = () => {
   const localStorageKey = "taskListData";
   const [tasks, setTasks] = useState([]);
+  const [inputValue, setInputValue] = useState("");
 
   // Load tasks from localStorage on mount
   useEffect(() => {
@@ -14,73 +14,58 @@ const ToDo = () => {
       const now = Date.now();
       const oneDay = 24 * 60 * 60 * 1000;
 
-      // Auto-remove tasks completed more than 1 day ago
+      // filter out tasks completed more than one day ago
       const filtered = parsed.filter(
-        (task) => !(task.checked && now - task.addedTimestamp >= oneDay)
+        (t) =>
+          !(t.checked && now - (t.statusUpdateTimestamp || t.addedTimestamp) >= oneDay)
       );
 
       setTasks(filtered);
     }
   }, []);
 
-  // Save to localStorage when tasks change
+  // Save tasks to localStorage whenever tasks change
   useEffect(() => {
     localStorage.setItem(localStorageKey, JSON.stringify(tasks));
   }, [tasks]);
 
-  // Add a new task
-  const addTask = (e) => {
-    e.preventDefault();
+  // Add new task when pressing Enter
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const name = inputValue.trim();
+      if (name === "") return;
 
-    const form = e.target;
-    const input = form.task;
-    const name = input.value.trim();
+      const timestamp = Date.now();
 
-    if (name === "") return;
+      const newTask = {
+        name,
+        checked: false,
+        addedTimestamp: timestamp,
+        statusUpdateTimestamp: null,
+      };
 
-    const newTask = {
-      name,
-      checked: false,
-      addedTimestamp: Date.now(),
-      statusUpdateTimestamp: null,
-    };
-
-    setTasks((prev) => [...prev, newTask]);
-    input.value = ""; // Clear input
+      setTasks((prev) => [...prev, newTask]);
+      setInputValue("");
+    }
   };
 
-  // Toggle task check/uncheck
+  // Toggle checkbox status and update statusUpdateTimestamp
   const toggleTask = (index) => {
     setTasks((prev) =>
-      prev.map((task, i) =>
+      prev.map((t, i) =>
         i === index
-          ? {
-              ...task,
-              checked: !task.checked,
-              statusUpdateTimestamp: Date.now(),
-            }
-          : task
+          ? { ...t, checked: !t.checked, statusUpdateTimestamp: Date.now() }
+          : t
       )
     );
   };
 
   return (
     <PageContent pageTitle="To Do List">
-      {/* Page Subtitle */}
       <p>Manage your current and upcoming tasks here.</p>
 
-      {/* Todo Form */}
-      <form id="task-form" onSubmit={addTask}>
-        <input type="text" id="task" name="task" placeholder="Enter a task..." />
-        <button type="submit">Add Task</button>
-      </form>
-
-      {/* Task List */}
       <div id="task-list">
-        {tasks.length === 0 && (
-          <p style={{ marginTop: "20px" }}>No tasks yet. Add one above!</p>
-        )}
-
         {tasks.map((task, index) => (
           <div
             key={index}
@@ -90,6 +75,8 @@ const ToDo = () => {
               color: task.checked ? "gray" : "black",
               opacity: task.checked ? 0.7 : 1,
             }}
+            data-added-timestamp={task.addedTimestamp}
+            data-status-update-timestamp={task.statusUpdateTimestamp || ""}
           >
             <input
               type="checkbox"
@@ -101,6 +88,20 @@ const ToDo = () => {
           </div>
         ))}
       </div>
+
+      <form id="task-form" onSubmit={(e) => e.preventDefault()}>
+        <input type="checkbox" disabled />
+
+        <input
+          type="text"
+          id="task"
+          name="task"
+          placeholder="Add A New Task . . ."
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+      </form>
     </PageContent>
   );
 };
