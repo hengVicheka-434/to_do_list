@@ -24,27 +24,7 @@ export default function Contact() {
 
   return (
     <div id="wrapper">
-      <div className="top">
-        <header>
-          <img src="img/acheivify.jpg" alt="Acheivify's Logo" className="logo-img" />
-          <p>
-            <a href="index.html" className="logo-text">ACHEIVIFY</a>
-          </p>
-        </header>
-
-        <nav>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="to-do.html">To Do</a></li>
-            <li><a href="report.html">Report</a></li>
-            <li><a href="history.html">History</a></li>
-            <li><a href="faq.html">FAQs</a></li>
-            <li><a href="user-guide.html">User Guide</a></li>
-            <li><a href="archive.html">Archive</a></li>
-            <li><a href="contact.html">Contact Us</a></li>
-          </ul>
-        </nav>
-      </div>
+      
 
       <main>
         <h1>Contact Us</h1>
@@ -97,14 +77,7 @@ export default function Contact() {
         </form>
       </main>
 
-      <footer>
-        <div id="contact">
-          <p><br />Copyright © 2025 Acheivify</p>
-          <a className="email-link" href="mailto:acheivify@gmail.com">
-            acheivify@gmail.com
-          </a>
-        </div>
-      </footer>
+      
     </div>
   );
 }
