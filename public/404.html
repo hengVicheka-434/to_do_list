@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page not found — Redirecting</title>
+    <!-- Immediately redirect to root so client-side router can handle the path -->
+    <meta http-equiv="refresh" content="0; url=/" />
+    <script>
+      // Fallback JavaScript redirect for clients that ignore meta refresh.
+      // Replace the current history entry so back button behavior stays sane.
+      (function () {
+        try {
+          var path = location.pathname + location.search + location.hash;
+          // If we are already at root, do nothing.
+          if (path !== '/' && path !== '') {
+            history.replaceState({}, '', '/');
+            location.replace('/');
+          }
+        } catch (e) {
+          // On any error, just navigate to '/'
+          location.replace('/');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to the app…</p>
+    <p>If you are not redirected, <a href="/">click here</a>.</p>
+  </body>
+</html>
