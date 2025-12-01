@@ -10,7 +10,6 @@ import Navigation from './components/Navigations';
 import './styles/App.css';
 
 export const App = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
 
     // Keep `isMobileView` in sync with window size so mobile UI/backdrop
@@ -28,7 +27,7 @@ export const App = () => {
             <div className='body-wrapper'>
                 <div className="top site-header">
                     <Header />
-                    <Navigation isMobileView={isMobileView} onLinkClick={() => setIsMenuOpen(false)} />
+                    <Navigation isMobileView={isMobileView} />
                 </div>
 
                 <div>

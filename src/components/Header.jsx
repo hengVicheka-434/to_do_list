@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import acheivifyLogo from '../assets/acheivify.jpg';
 import '../styles/Header.css';
