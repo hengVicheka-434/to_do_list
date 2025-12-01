@@ -9,7 +9,7 @@ const ToDo = () => {
   const [editingIndex, setEditingIndex] = useState(null); // editing state
   const [editingValue, setEditingValue] = useState(""); // editing text
 
-  // Load tasks from localStorage on mount
+  // Load tasks from localStorage on mount 
   useEffect(() => {
     const stored = localStorage.getItem(localStorageKey);
     if (stored) {
